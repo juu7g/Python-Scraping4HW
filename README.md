@@ -19,7 +19,7 @@
 ## 使い方 Usage
 
 こちらのサイトを参照  
-[ハローワークの求人情報を自動で検索するアプリ(スクレイピング) - 【非公開】プログラムでおかえしできるかな](https://juu7g.hatenablog.jp/entry/Python/scraping/HWexe)
+[ハローワークの求人情報を自動で検索するアプリ(スクレイピング) - プログラムでおかえしできるかな](https://juu7g.hatenablog.jp/entry/Python/scraping/HWexe)
 
 ## インストール方法 Installation
 
