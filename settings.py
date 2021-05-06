@@ -66,10 +66,10 @@ _kensaku = {
 
 _shosai_settei = {    
       "ID_shoyoAriCKBox1":  False				#checkbox",,あり
-	, "ID_shgJnStaJiCmbBoxHH": ""				#select時
-	, "ID_shgJnStaFunCmbBoxMM": ""				#select分
-	, "ID_shgJnEndJiCmbBoxHH": ""				#select時
-	, "ID_shgJnEndFunCmbBoxMM": ""				#select分
+	, "ID_shgJnStaJiCmbBoxHH": []				#select時(0-23)["8"]と指定、時と分はセットで指定
+	, "ID_shgJnStaFunCmbBoxMM": []				#select分(0,10,20,30,40,50)
+	, "ID_shgJnEndJiCmbBoxHH": []				#select時(0-23)["8"]と指定、時と分はセットで指定
+	, "ID_shgJnEndFunCmbBoxMM": []				#select分(0,10,20,30,40,50)
 	, "ID_kiboShgJnCKBox1":  False				#checkbox",,交代制（シフト制）を含まない
 	, "ID_kiboShgJnCKBox2":  False				#checkbox",,裁量労働制を含まない
 	, "ID_kiboShgJnCKBox3":  False				#checkbox",,変形労働時間制を含まない
@@ -105,7 +105,7 @@ _shosai_settei = {
 	, "ID_knsiAriCKBox2":  False				#checkbox",,条件あり
 	, "ID_tnseiRadioBtn0":  False				#radio",,指定しない
 	, "ID_tnseiRadioBtn1":  False				#radio",,あり
-	, "ID_tnseiCmbBox":  ""						#select歳以上
+	, "ID_tnseiCmbBox":  []						#select歳以上(60-70)
 	, "ID_tnseiRadioBtn2":  False				#radio",,なし
 	, "ID_nyukyoKaCKBox1":  False				#checkbox",,単身用あり
 	, "ID_nyukyoKaCKBox2":  False				#checkbox",,世帯用あり

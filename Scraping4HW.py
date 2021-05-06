@@ -40,6 +40,13 @@ def get_job_dt(url):
     # browser.close()
     return _text
 
+def write_condition(soup):
+    """
+    求人情報検索の検索条件をテキストファイルに出力する
+    ファイルは固定で上書き保存とする
+    データを取るのが難しくて保留
+    """
+
 try:
     # ブラウザーを起動
     options = Options()         # オプションインスタンス作成
@@ -72,11 +79,13 @@ try:
     # 都道府県のselectタグを取得して、ID順にする。
     sels = browser.find_elements_by_tag_name("select")          # selectタグは就業場所のみ
     sels = sorted(sels, key=lambda x: x.get_attribute("id"))    # id属性でソート
+
     # 市町村選択ボタンのタグを取得して、onclick属性順にする。selectタグと同期させるため。
     # inputタグでvalueが選択を抽出、onclick属性でソート
     buttons = browser.find_elements_by_css_selector("input.button")         # 他のボタンも含まれる
     btns = [x for x in buttons if x.get_attribute("value") == "選択"]       # valueで選別可能
     btns = sorted(btns, key=lambda x: x.get_attribute("onclick"))           # onclick属性にIDが含まれる
+
     # 就業場所3か所の設定
     for _sel, _btn, _tdk in zip(sels, btns, settings.tdks):
         Select(_sel).select_by_visible_text(_tdk[0])
@@ -95,13 +104,14 @@ try:
     # inputタグでvalueが「職種を選択」を抽出、onclick属性でソート
     btns = [x for x in buttons if x.get_attribute("value") == "職種を選択"]
     btns = sorted(btns, key=lambda x: x.get_attribute("onclick"))
+
     # 職種3か所の設定
     for  _btn, _sksu in zip(btns, settings.sksus):
         _btn.click()    # 職種選択画面表示
         # 選択画面が表示されるまで待つ
         wait.until(Ec.element_to_be_clickable((By.ID, "ID_rank1Code")))
-        _sel = browser.find_element_by_id("ID_rank1Code")          # selectタグは大分類のみ
-        Select(_sel).select_by_visible_text(_sksu[0])
+        _sel = browser.find_element_by_id("ID_rank1Code")           # selectタグは大分類のみ
+        Select(_sel).select_by_visible_text(_sksu[0])               # Selectクラスのインスタンスを作成して選択する
         element = browser.find_element_by_id("ID_rank2Codes")
         for _city in _sksu[1:]:
             Select(element).select_by_visible_text(_city)
@@ -115,15 +125,23 @@ try:
     wait.until(Ec.visibility_of_element_located((By.ID, "ID_saveCondBtn")))
 
     # 詳細検索条件の設定
+    # 詳細検索条件の設定 クリックするもの
     # sttingsから値がTrueで設定されているもので辞書を作成
     _detial = {k: v for k, v in settings._shosai_settei.items() if v and type(v) is bool}
     for id in _detial:
         browser.find_element_by_id(id).click()  # チェックボックスをオンにする
-        # 検索条件の設定 キー入力するもの
+
+    # 詳細検索条件の設定 キー入力するもの
     # sttingsから値が文字列で設定されているもので辞書を作成
     _detial = {k: v for k, v in settings._shosai_settei.items() if v and type(v) is str}
     for id, v in _detial.items():
         browser.find_element_by_id(id).send_keys(v)     # 設定文字列をセットする
+
+    # 詳細検索条件の設定 要素選択するもの
+    # sttingsから値がリストで設定されているもので辞書を作成
+    _detial = {k: v for k, v in settings._shosai_settei.items() if v and type(v) is list}
+    for id, v in _detial.items():
+        Select(browser.find_element_by_id(id)).select_by_visible_text(v[0])     # 設定文字列をセットする
 
 
     # 「OK」をクリック
@@ -152,6 +170,8 @@ try:
 
     # 今見ているページをBeautifulSoupで解析
     soup = BeautifulSoup(browser.page_source, "html.parser")
+
+    write_condition(soup)
 
     # 「求人」のテーブルを検索
     jobs = soup.find_all("table", class_="kyujin")
