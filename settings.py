@@ -1,17 +1,22 @@
 ﻿# ドライバ(geckodriver.exe)のパスを指定 exeファイル名を含めること
 executable_path = "C:\MyProgram\geckodriver.exe"
 
+# コマンドライン引数
+flag_a = False		# CSVファイルを起動
+flag_b = False		# ブラウザを表示
+
 # 選択項目
 
 # 都道府県 3つまで 市町村は5つまで
 tdks = [
           ["東京都", "千代田区"]
-        , ["東京都", "港区"]
+        , ["神奈川県"]
         , ["埼玉県"]
         ]
 
 # 職種 3つまで
-sksus = [["技術職（建設、開発、ＩＴ）、専門職", "ソフトウェア開発技術者、プログラマー", "その他の情報処理・通信技術者"]
+sksus = [
+		  ["技術職（建設、開発、ＩＴ）、専門職", "ソフトウェア開発技術者、プログラマー", "その他の情報処理・通信技術者"]
         , ["事務、管理職", "一般事務、事務補助"]
         ]
 
@@ -19,7 +24,7 @@ _kensaku = {
 	  "ID_kSNoJo": ""						# text 求人番号
 	, "ID_kSNoGe": ""						# text 求人番号
 	, "ID_kjKbnRadioBtn1": False			# radio 一般求人
-	, "ID_ippanCKBox1": True				# checkbox フルタイム
+	, "ID_ippanCKBox1": False				# checkbox フルタイム
 	, "ID_ippanCKBox2": False				# checkbox パート
 	, "ID_kjKbnRadioBtn2": False			# radio 新卒・既卒求人
 	, "ID_kjKbnRadioBtn3": False			# radio 季節求人
@@ -27,7 +32,7 @@ _kensaku = {
 	, "ID_kjKbnRadioBtn5": False			# radio 障害のある方のための求人
 	, "ID_sGSYACKBox1": False				# checkbox フルタイム
 	, "ID_sGSYACKBox2": False				# checkbox パート
-	, "ID_nenreiInput": "60"				# text 年齢
+	, "ID_nenreiInput": ""				# text 年齢
 	, "ID_nenreiCKBox1": False				# checkbox 不問のみ
 	, "ID_nenreiCKBox2": False				# checkbox 不問をのぞく
 	, "ID_sKGYBRUIJo1": ""					# text 職業分類
@@ -44,7 +49,7 @@ _kensaku = {
 	, "ID_koyoPartCKBox6": False			# checkbox 有期雇用派遣パート
 	, "ID_koyoPartCKBox7": False			# checkbox 無期雇用派遣パート
 	, "ID_newArrivedCKBox1": False			# checkbox 新着（当日・前日）の求人情報から検索
-	, "ID_newArrivedCKBox2": True			# checkbox 新着（１週間以内）の求人情報から検索
+	, "ID_newArrivedCKBox2": False			# checkbox 新着（１週間以内）の求人情報から検索
 	, "ID_freeWordRadioBtn0": False			# radio ＯＲ検索
 	, "ID_freeWordRadioBtn1": False			# radio ＡＮＤ検索
 	, "ID_freeWordInput": ""				# text フリーワード
@@ -82,11 +87,11 @@ _shosai_settei = {
 	, "ID_holidayCKBox3":  False				#checkbox",,水曜日
 	, "ID_holidayCKBox4":  False				#checkbox",,木曜日
 	, "ID_holidayCKBox5":  False				#checkbox",,金曜日
-	, "ID_holidayCKBox6":  True				#checkbox",,土曜日
-	, "ID_holidayCKBox7":  True				#checkbox",,日曜日
-	, "ID_holidayCKBox8":  True				#checkbox",,祝日
+	, "ID_holidayCKBox6":  False				#checkbox",,土曜日
+	, "ID_holidayCKBox7":  False				#checkbox",,日曜日
+	, "ID_holidayCKBox8":  False				#checkbox",,祝日
 	, "ID_shukFtskRadioBtn0":  False			#radio",,指定しない
-	, "ID_shukFtskRadioBtn1":  True			#radio",,毎週
+	, "ID_shukFtskRadioBtn1":  False			#radio",,毎週
 	, "ID_shukFtskRadioBtn2":  False			#radio",,その他
 	, "ID_hakenUkeoinCKBox1":  False			#checkbox",,派遣
 	, "ID_hakenUkeoinCKBox2":  False			#checkbox",,請負
@@ -136,7 +141,7 @@ _shosai_settei = {
 	, "ID_sonotaCKBox1":  False					#checkbox",,書類選考なし
 	, "ID_sonotaCKBox2":  False					#checkbox",,正社員登用あり
 	, "ID_sonotaCKBox3":  False					#checkbox",,マイカー通勤可
-	, "ID_sonotaCKBox4":  True					#checkbox",,転勤の可能性なし
+	, "ID_sonotaCKBox4":  False					#checkbox",,転勤の可能性なし
 	, "ID_sonotaCKBox5":  False					#checkbox",,在宅勤務
 	, "ID_sonotaCKBox6":  False					#checkbox",,駅近（最寄り駅から徒歩１０分以内）
 	, "ID_sonotaCKBox7":  False					#checkbox",,屋内の受動喫煙対策あり
