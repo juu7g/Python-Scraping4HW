@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 import datetime
-import csv, sys, os
+import csv, sys, os, subprocess
 from tqdm import tqdm
 sys.path.append(os.path.dirname(sys.executable))
 import settings     # 選択項目を定義している
@@ -46,11 +46,16 @@ def write_condition(soup):
     ファイルは固定で上書き保存とする
     データを取るのが難しくて保留
     """
+# コマンドライン引数からオプションを取得
+# オプション    a:結果ファイル起動、b:ブラウザ表示
+flag_a = [x for x in sys.argv if x == "a"]
+flag_b = [x for x in sys.argv if x == "b"]
 
 try:
     # ブラウザーを起動
     options = Options()         # オプションインスタンス作成
-    options.headless = True     # ヘッドレスモード(ブラウザを見せない)
+    if not flag_b:
+	    options.headless = True     # ヘッドレスモード(ブラウザを見せない)
     browser = webdriver.Firefox(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
 
     # 待機
@@ -220,3 +225,8 @@ except Exception as e:
     print("CSVエラー", e)
 
 print("finished")
+
+# CSVファイルをファイル名を指定して起動する。関連付けされている必要がある。
+if flag_a:
+    subprocess.Popen(["start", output_path], shell=True)    
+    

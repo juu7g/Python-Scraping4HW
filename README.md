@@ -15,6 +15,7 @@
 - Python 3.8.5  
 - beautifulsoup4 4.9.3    
 - selenium 3.141.0    
+- tqdm 4.56.0
 
 ## g‚¢•û Usage
 
@@ -25,6 +26,7 @@
 
 - pip install beautifulsoup4  
 - pip install selenium  
+- pip install tqdm
 
 ## ìÒ Authors
 juu7g
