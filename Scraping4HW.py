@@ -54,7 +54,7 @@ flag_b = [x for x in sys.argv if x == "b"]
 try:
     # ブラウザーを起動
     options = Options()         # オプションインスタンス作成
-    if not flag_b:
+    if not (flag_b or settings.flag_b):
 	    options.headless = True     # ヘッドレスモード(ブラウザを見せない)
     browser = webdriver.Firefox(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
 
@@ -227,6 +227,6 @@ except Exception as e:
 print("finished")
 
 # CSVファイルをファイル名を指定して起動する。関連付けされている必要がある。
-if flag_a:
+if (flag_a or settings.flag_a):
     subprocess.Popen(["start", output_path], shell=True)    
     
