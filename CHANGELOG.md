@@ -6,6 +6,6 @@
   Support Chrome browser
 
 ### Fixed
-- 職種設定で待機が不十分だったものを修正
+- 職種設定で待機が不十分だったものを修正  
   Fixed insufficient waiting in job type setting 
 
