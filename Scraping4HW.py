@@ -3,7 +3,7 @@
 """
 
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as Ec
@@ -16,6 +16,12 @@ import csv, sys, os, subprocess
 from tqdm import tqdm
 sys.path.append(os.path.dirname(sys.executable))
 import settings     # 選択項目を定義している
+
+# Webドライバーに依り対象ブラウザを変える
+if settings.executable_path.endswith("geckodriver.exe"):
+    from selenium.webdriver.firefox.options import Options
+else:
+    from selenium.webdriver.chrome.options import Options
 
 url = "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?action=initDisp&screenId=GECA110010"
 url0 = "https://www.hellowork.mhlw.go.jp/kensaku"
@@ -53,10 +59,15 @@ flag_b = [x for x in sys.argv if x == "b"]
 
 try:
     # ブラウザーを起動
-    options = Options()         # オプションインスタンス作成
+    options = Options()             # オプションインスタンス作成
     if not (flag_b or settings.flag_b):
-	    options.headless = True     # ヘッドレスモード(ブラウザを見せない)
-    browser = webdriver.Firefox(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
+        options.headless = True     # ヘッドレスモード(ブラウザを見せない)
+    # Webドライバーに依り対象ブラウザを変える
+    if settings.executable_path.endswith("geckodriver.exe"):
+        browser = webdriver.Firefox(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
+    else:
+        options.add_argument("--disable-software-rasterizer")   # Chromeではこれを付けないとエラー(kFatalFailure)になる(理由はよくわからない)
+        browser = webdriver.Chrome(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
 
     # 待機
     wait = WebDriverWait(browser, 15)  # Timeout 15秒（最大待ち時間）
@@ -82,7 +93,7 @@ try:
 
     # 就業場所の設定
     # 都道府県のselectタグを取得して、ID順にする。
-    sels = browser.find_elements_by_tag_name("select")          # selectタグは就業場所のみ
+    sels = browser.find_elements_by_tag_name("select")          # selectタグは都道府県のみ
     sels = sorted(sels, key=lambda x: x.get_attribute("id"))    # id属性でソート
 
     # 市町村選択ボタンのタグを取得して、onclick属性順にする。selectタグと同期させるため。
@@ -115,14 +126,18 @@ try:
         _btn.click()    # 職種選択画面表示
         # 選択画面が表示されるまで待つ
         wait.until(Ec.element_to_be_clickable((By.ID, "ID_rank1Code")))
-        _sel = browser.find_element_by_id("ID_rank1Code")           # selectタグは大分類のみ
-        Select(_sel).select_by_visible_text(_sksu[0])               # Selectクラスのインスタンスを作成して選択する
+        _sel = browser.find_element_by_id("ID_rank1Code")
+        # 大分類選択
+        Select(_sel).select_by_visible_text(_sksu[0])   # Selectクラスのインスタンスを作成して選択する
+        # 詳細が出るまで待つ
+        wait.until(Ec.text_to_be_present_in_element((By.ID, "ID_rank2Codes"), "こだわらない"))
         element = browser.find_element_by_id("ID_rank2Codes")
         for _city in _sksu[1:]:
             Select(element).select_by_visible_text(_city)
         browser.find_element_by_id("ID_ok").click()    # OKをクリック
         # 選択画面が閉じるまで待つ
         wait.until(Ec.invisibility_of_element_located((By.ID, "ID_ok")))
+    print("set occupation")
 
     # 「詳細検索条件」をクリック
     browser.find_element_by_id("ID_searchShosaiBtn").click()
@@ -147,7 +162,7 @@ try:
     _detial = {k: v for k, v in settings._shosai_settei.items() if v and type(v) is list}
     for id, v in _detial.items():
         Select(browser.find_element_by_id(id)).select_by_visible_text(v[0])     # 設定文字列をセットする
-
+    print("set detailed conditions")
 
     # 「OK」をクリック
     browser.find_element_by_id("ID_saveCondBtn").click()
