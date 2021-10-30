@@ -32,6 +32,10 @@
 ## 作者 Authors
 juu7g
 
+## プログラムの説明サイト Program description site
+
+[ハローワーク求人情報のスクレイピング(Selenium)【Python】 - プログラムでおかえしできるかな](https://juu7g.hatenablog.com/entry/Python/scraping/HWprog)  
+
 ## ライセンス License
 このソフトウェアは、MITライセンスのもとで公開されています。LICENSE.txtを確認してください。  
 This software is released under the MIT License, see LICENSE.txt.
