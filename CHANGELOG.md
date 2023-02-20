@@ -1,5 +1,10 @@
 ﻿# Python-Scraping4HW Change Log
 
+## [1.0.2] - 2023-02-20
+### Changed
+- Web ドライバーの自動取得に対応  
+	Supports automatic acquisition of web drivers
+
 ## [1.0.1] - 2021-07-02
 ### Added
 - Chromeブラウザ対応  

@@ -1,5 +1,6 @@
-﻿# ドライバ(geckodriver.exe)のパスを指定 exeファイル名を含めること
-executable_path = "C:\MyProgram\geckodriver.exe"
+﻿# ブラウザの指定 (chromedriver.exeかgeckodriver.exeのいずれか)
+executable_path = "chromedriver.exe"
+# executable_path = "geckodriver.exe"
 
 # コマンドライン引数
 flag_a = False		# CSVファイルを起動

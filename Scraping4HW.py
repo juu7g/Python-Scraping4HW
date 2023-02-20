@@ -20,8 +20,10 @@ import settings     # 選択項目を定義している
 # Webドライバーに依り対象ブラウザを変える
 if settings.executable_path.endswith("geckodriver.exe"):
     from selenium.webdriver.firefox.options import Options
+    from webdriver_manager.firefox import GeckoDriverManager
 else:
     from selenium.webdriver.chrome.options import Options
+    from webdriver_manager.chrome import ChromeDriverManager
 
 url = "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?action=initDisp&screenId=GECA110010"
 url0 = "https://www.hellowork.mhlw.go.jp/kensaku"
@@ -64,10 +66,10 @@ try:
         options.headless = True     # ヘッドレスモード(ブラウザを見せない)
     # Webドライバーに依り対象ブラウザを変える
     if settings.executable_path.endswith("geckodriver.exe"):
-        browser = webdriver.Firefox(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
+        browser = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)  # ブラウザインスタンス作成
     else:
         options.add_argument("--disable-software-rasterizer")   # Chromeではこれを付けないとエラー(kFatalFailure)になる(理由はよくわからない)
-        browser = webdriver.Chrome(executable_path=settings.executable_path, options=options)  # ブラウザインスタンス作成
+        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)  # ブラウザインスタンス作成
 
     # 待機
     wait = WebDriverWait(browser, 15)  # Timeout 15秒（最大待ち時間）

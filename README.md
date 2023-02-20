@@ -17,6 +17,7 @@
 - beautifulsoup4 4.9.3    
 - selenium 3.141.0    
 - tqdm 4.56.0
+- webdriver-manager 3.8.5
 
 ## g‚¢•û Usage
 
@@ -28,6 +29,7 @@
 - pip install beautifulsoup4  
 - pip install selenium  
 - pip install tqdm
+- pip install webdriver-manager
 
 ## ìÒ Authors
 juu7g
