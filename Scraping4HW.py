@@ -119,26 +119,33 @@ try:
             wait.until(Ec.invisibility_of_element_located((By.ID, "ID_ok")))
 
     # 職種
-    # inputタグでvalueが「職種を選択」を抽出、onclick属性でソート
-    btns = [x for x in buttons if x.get_attribute("value") == "職種を選択"]
+    # buttonタグでtextが「職種を選択」を抽出、onclick属性でソート
+    buttons = browser.find_elements_by_css_selector("button.button")         # 他のボタンも含まれる
+    btns = [x for x in buttons if x.text == "職種を選択"]
     btns = sorted(btns, key=lambda x: x.get_attribute("onclick"))
 
     # 職種3か所の設定
     for  _btn, _sksu in zip(btns, settings.sksus):
         _btn.click()    # 職種選択画面表示
         # 選択画面が表示されるまで待つ
-        wait.until(Ec.element_to_be_clickable((By.ID, "ID_rank1Code")))
-        _sel = browser.find_element_by_id("ID_rank1Code")
-        # 大分類選択
-        Select(_sel).select_by_visible_text(_sksu[0])   # Selectクラスのインスタンスを作成して選択する
+        wait.until(Ec.text_to_be_present_in_element((By.CSS_SELECTOR, '.modal.top'), '職種選択画面'))
+        # 大分類選択 「✚」をクリック
+        elems = browser.find_elements_by_class_name("ac_header")    # 大分類のタグを取得
+        _elem_oya = [x for x in elems if x.text == _sksu[0]][0]     # 指定した大分類を抽出
+        _elem = _elem_oya.find_element_by_class_name('i_box')       # eventの割り付いている子要素を取得
+        _elem.click()   # クリックして開く
         # 詳細が出るまで待つ
-        wait.until(Ec.text_to_be_present_in_element((By.ID, "ID_rank2Codes"), "こだわらない"))
-        element = browser.find_element_by_id("ID_rank2Codes")
-        for _city in _sksu[1:]:
-            Select(element).select_by_visible_text(_city)
-        browser.find_element_by_id("ID_ok").click()    # OKをクリック
+        wait.until(Ec.presence_of_element_located((By.CSS_SELECTOR, ".ac_header.open")))
+        # 詳細は大分類と兄弟のタグ 開いている大見出しはクラスが「ac_header open」になる(一度に一つだけ)
+        _elem_oya = browser.find_element_by_css_selector(".ac_header.open + .ac_inner")
+        for _item in _sksu[1:]:
+            # labelタグのテキストで項目を探し、子要素のinputタグをクリックしてチェックを付ける
+            _elem = [x for x in _elem_oya.find_elements(By.TAG_NAME, 'label') if x.text == _item][0]
+            _elem = _elem.find_element(By.TAG_NAME, 'input')
+            _elem.click()
+        browser.find_element_by_id("ID_ok3").click()    # OKをクリック
         # 選択画面が閉じるまで待つ
-        wait.until(Ec.invisibility_of_element_located((By.ID, "ID_ok")))
+        wait.until(Ec.invisibility_of_element_located((By.ID, "ID_ok3")))
     print("set occupation")
 
     # 「詳細検索条件」をクリック

@@ -1,5 +1,10 @@
 ﻿# Python-Scraping4HW Change Log
 
+## [1.1.0] - 2023-08-22
+### Fixed
+- ハローワークサイトの職種選択方法の変更に対応  
+	Respond to changes in job selection methods on the Hello Work site
+
 ## [1.0.2] - 2023-02-20
 ### Changed
 - Web ドライバーの自動取得に対応  
